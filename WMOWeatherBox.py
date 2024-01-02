@@ -20,22 +20,22 @@ def makeTable(file_path, location):
     for row in climate_data:
         split_row = row.split(",")
 
-        code = split_row[1]
+        code = split_row[1].strip()
 
-        if code in codeText and split_row[2] != "NOY":
+        if code in codeText and split_row[2].strip() != "NOY":
             curr_text = codeText[code]
             
             i = 4
             month_num = 1
 
-            if len(split_row[i:]) == 14:
+            if len(split_row[i:]) >= 13:
                 new_section = ""
                 if curr_text == "precipitation mm":
                     new_section = " | precipitation colour = green\n"
                 if curr_text == "precipitation days":
                     new_section = " | unit precipitation days = 1.0 mm\n"
 
-                while i < len(split_row) - 2:
+                while month_num <= 12:
                     month = months[month_num]
                     new_line = " | {} {} = {}\n".format(month, curr_text, split_row[i])
                     new_section += new_line
