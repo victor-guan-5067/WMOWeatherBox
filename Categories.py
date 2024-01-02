@@ -128,7 +128,7 @@ sunshine = '''
 
 footer = ''' | source = [[National Oceanic and Atmospheric Administration|NOAA]]<ref name="WMONormals">{{{{cite web
 |url = 
-|title = World Meteorological Organization Climate Normals for 1991-2020 — {}
+|title = World Meteorological Organization Climate Normals for 1991-2020—{}
 |publisher = National Oceanic and Atmospheric Administration
 |access-date = {}}}}}</ref>
 }}}}'''
