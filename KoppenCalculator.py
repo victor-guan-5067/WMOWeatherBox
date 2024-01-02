@@ -71,12 +71,12 @@ def txtSort(file_path):
     for line in lines:
         place = line.rfind('=') + 1
 
-        if len(temps) < 12 and "mean" in line:
+        if len(temps) < 12 and "mean C" in line:
             temp = float(line[place:-1])
             temps.append(temp)
         elif "year mean" in line:
             mean_temp = float(line[place:-1])
-        if len(precips) < 12 and "precipitation" in line:
+        if len(precips) < 12 and "precipitation mm" in line:
             precip = float(line[place:-1])
             precips.append(precip)
         elif "year precipitation " in line:
