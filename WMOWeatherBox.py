@@ -40,7 +40,7 @@ def makeTable(file_path, location):
                 while month_num <= 12:
                     month = months[month_num]
                     data = split_row[i].strip()
-                    if len(data) == 1:
+                    if '.' not in data:
                         data += ".0"
                     new_line = " | {} {} = {}\n".format(month, curr_text, data)
                     new_section += new_line
