@@ -22,7 +22,9 @@ def makeTable(file_path, location):
 
         code = split_row[1].strip()
 
-        if code in codeText and split_row[2].strip() != "NOY":
+        calculations = ['count', 'sum', 'mean']
+
+        if code in codeText and split_row[2].strip().lower() in calculations:
             curr_text = codeText[code]
             
             i = 4
@@ -37,7 +39,10 @@ def makeTable(file_path, location):
 
                 while month_num <= 12:
                     month = months[month_num]
-                    new_line = " | {} {} = {}\n".format(month, curr_text, split_row[i])
+                    data = split_row[i].strip()
+                    if len(data) == 1:
+                        data += ".0"
+                    new_line = " | {} {} = {}\n".format(month, curr_text, data)
                     new_section += new_line
                     i += 1
                     month_num += 1
