@@ -79,7 +79,7 @@ def txtSort(file_path):
         if len(precips) < 12 and "precipitation mm" in line:
             precip = float(line[place:-1])
             precips.append(precip)
-        elif "year precipitation " in line:
+        elif "year precipitation mm" in line:
             mean_precip = float(line[place:-1])
     
     print(calculateKoppen(temps, precips, mean_temp, mean_precip))
@@ -127,7 +127,7 @@ def calculateKoppen(temps, precips, mean_temp, mean_precip):
     if min(temps) >= 18:
         if min(precips) >= 60:
             return "Af (tropical rainforest)"
-        elif min(precips) >= (100 - mean_precip/25):
+        elif min(precips) >= (100 - total_precip/25):
             return "Am (tropical monsoon)"
         else:
             return "Aw (tropical savanna)"

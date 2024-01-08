@@ -20,9 +20,12 @@ def makeTable(file_path, location):
     for row in climate_data:
         split_row = row.split(",")
 
-        code = split_row[1].strip()
+        if len(split_row) > 1:
+            code = split_row[1].strip()
+        else:
+            code = 'N/A'
 
-        calculations = ['count', 'sum', 'mean']
+        calculations = ['count', 'sum', 'mean', 'max', 'min']
 
         if code in codeText and split_row[2].strip().lower() in calculations:
             curr_text = codeText[code]
@@ -40,10 +43,9 @@ def makeTable(file_path, location):
                 while month_num <= 12:
                     month = months[month_num]
                     data = split_row[i].strip()
-                    if '.' not in data:
-                        data += ".0"
-                    new_line = " | {} {} = {}\n".format(month, curr_text, data)
-                    new_section += new_line
+                    if data != '':
+                        new_line = " | {} {} = {}\n".format(month, curr_text, data)
+                        new_section += new_line
                     i += 1
                     month_num += 1
 
