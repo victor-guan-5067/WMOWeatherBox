@@ -27,7 +27,7 @@ def makeTable(file_path, location):
 
         calculations = ['count', 'sum', 'mean', 'max', 'min']
 
-        if code in codeText and split_row[2].strip().lower() in calculations:
+        if code in codeText and split_row[4] != '' and split_row[2].strip().lower() in calculations:
             curr_text = codeText[code]
             
             i = 4
