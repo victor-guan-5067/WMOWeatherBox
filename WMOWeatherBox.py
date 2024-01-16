@@ -2,7 +2,7 @@ import Categories
 from datetime import date
 
 
-def makeTable(file_path, location):
+def makeTable(file_path, location, url):
     months = Categories.month
     codeText = {'1':'precipitation mm', '2':'precipitation days', '3':'high C', '4':'low C', '5':'mean C', '8':"sun", '22': 'record high C', '23': 'record low C', '37': 'snow cm', '38': 'humidity', '39': 'dew point C'}
     code_order = ['22', '3', '5', '4', '23', '1', '37', '2', '38', '39', '8']
@@ -10,7 +10,7 @@ def makeTable(file_path, location):
 
     header = Categories.header.format(location)
     date_string = date.today().strftime("%B %-d, %Y")
-    footer = Categories.footer.format(location, date_string)
+    footer = Categories.footer.format(url, location, date_string)
 
     weather_box = header
 
@@ -69,4 +69,5 @@ def makeTable(file_path, location):
 if __name__ == '__main__':
     filePath = input("File path: ")
     location = input("location: ")
-    makeTable(filePath, location)
+    url = input("URL: ")
+    makeTable(filePath, location, url)
