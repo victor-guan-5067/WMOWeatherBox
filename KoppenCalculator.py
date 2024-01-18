@@ -139,8 +139,8 @@ def calculateKoppen(temps, precips, mean_temp, mean_precip):
     else:
         classification = "C"
 
-    summer_half = precips[4:10]
-    winter_half = precips[1:4] + precips[10:]
+    summer_half = precips[3:9]
+    winter_half = precips[0:3] + precips[9:]
         
     if min(summer_half) < 0.33 * max(winter_half) and min(summer_half) < 30:
         classification += "s"
