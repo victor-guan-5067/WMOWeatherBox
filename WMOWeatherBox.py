@@ -49,7 +49,7 @@ def makeTable(file_path, location, url):
                     i += 1
                     month_num += 1
 
-                new_section += " | year {} = {}\n".format(curr_text, split_row[i])
+                new_section += " | year {} = {}\n".format(curr_text, split_row[i].strip())
                 text_dict[code] = new_section
 
     climate_data.close()
