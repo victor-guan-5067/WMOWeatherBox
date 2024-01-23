@@ -20,20 +20,21 @@ def makeTable(file_path, location, url):
     for row in climate_data:
         split_row = row.split(",")
 
-        if len(split_row) > 1:
+        if len(split_row) >= 17:
             code = split_row[1].strip()
-        else:
-            code = 'N/A'
+            calculations = ['count', 'count %', 'sum', 'mean', 'max', 'min']
 
-        calculations = ['count', 'sum', 'mean', 'max', 'min']
+            is_calculation = False
+            for calculation in calculations:
+                if calculation == split_row[2].strip().lower():
+                    is_calculation = True
 
-        if code in codeText and split_row[4] != '' and split_row[1].strip() in code_order and split_row[2].strip() != 'NOY':
-            curr_text = codeText[code]
-            
-            i = 4
-            month_num = 1
+            if code in codeText and is_calculation:
+                curr_text = codeText[code]
+                
+                i = 4
+                month_num = 1
 
-            if len(split_row[i:]) >= 13:
                 new_section = ""
                 if curr_text == "precipitation mm":
                     new_section = " | precipitation colour = green\n"
