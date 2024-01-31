@@ -29,7 +29,12 @@ def makeTable(file_path, location, url):
                 if calculation == split_row[2].strip().lower():
                     is_calculation = True
 
-            if code in codeText and is_calculation:
+            empty = True
+            for i in range(4, len(split_row)):
+                if split_row[i] != '':
+                    empty = False
+
+            if code in codeText and is_calculation and not empty:
                 curr_text = codeText[code]
                 
                 i = 4
