@@ -1,8 +1,9 @@
 import Categories
 from datetime import date
+import os
 
 
-def makeTable(file_path, location, url):
+def makeTable(file_path, url, location, country):
     months = Categories.month
     codeText = {'1':'precipitation mm', '2':'precipitation days', '3':'high C', '4':'low C', '5':'mean C', '8':"sun", '22': 'record high C', '23': 'record low C', '37': 'snow cm', '38': 'humidity', '39': 'dew point C'}
     code_order = ['22', '3', '5', '4', '23', '1', '37', '2', '38', '39', '8']
@@ -66,7 +67,12 @@ def makeTable(file_path, location, url):
 
     weather_box += footer
 
-    path = location + '.txt'
+    path = country + '/' + location + '.txt'
+
+    parent_dir = os.getcwd()
+
+    if not os.path.exists(parent_dir+'/'+country+'/'):
+        os.makedirs(parent_dir+country+'/')
     
     with open(path, "w") as weatherBoxes:
         print(weather_box, file=weatherBoxes)
@@ -74,6 +80,7 @@ def makeTable(file_path, location, url):
 
 if __name__ == '__main__':
     filePath = input("File path: ")
-    location = input("location: ")
     url = input("URL: ")
-    makeTable(filePath, location, url)
+    location = input("location: ")
+    country = input("country: ")
+    makeTable(filePath, url, location, country)
