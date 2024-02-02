@@ -67,12 +67,15 @@ def makeTable(file_path, url, location, country):
 
     weather_box += footer
 
-    path = country + '/' + location + '.txt'
+    if country == "":
+        path = location + '.txt'
+    else:
+        path = country + '/' + location + '.txt'
 
     parent_dir = os.getcwd()
 
     if not os.path.exists(parent_dir+'/'+country+'/'):
-        os.makedirs(parent_dir+country+'/')
+        os.makedirs(parent_dir+'/'+country+'/')
     
     with open(path, "w") as weatherBoxes:
         print(weather_box, file=weatherBoxes)
