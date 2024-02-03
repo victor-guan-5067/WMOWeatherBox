@@ -36,7 +36,6 @@ def makeTable(file_path, url, location, country):
                     empty = False
 
             if code in codeText and is_calculation and not empty:
-                print(split_row)
                 curr_text = codeText[code]
                 
                 i = 4
