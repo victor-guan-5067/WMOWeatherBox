@@ -1,7 +1,7 @@
 import Categories
 from datetime import date
 import os
-
+import re
 
 def makeTable(file_path, url, location, country):
     months = Categories.month
@@ -32,10 +32,11 @@ def makeTable(file_path, url, location, country):
 
             empty = True
             for i in range(4, len(split_row)):
-                if split_row[i] != '':
+                if re.search('[0-9]', split_row[i]):
                     empty = False
 
             if code in codeText and is_calculation and not empty:
+                print(split_row)
                 curr_text = codeText[code]
                 
                 i = 4
