@@ -50,13 +50,20 @@ def makeTable(file_path, url, location, country):
                 while month_num <= 12:
                     month = months[month_num]
                     data = split_row[i].strip()
+                    if '.' in data:
+                        data = float(data)
+                        data = round(data, 1)
                     if data != '':
                         new_line = " | {} {} = {}\n".format(month, curr_text, data)
                         new_section += new_line
                     i += 1
                     month_num += 1
 
-                new_section += " | year {} = {}\n".format(curr_text, split_row[i].strip())
+                data = split_row[i].strip()
+                if '.' in data:
+                    data = float(data)
+                    data = round(data, 1)
+                new_section += " | year {} = {}\n".format(curr_text, data)
                 text_dict[code] = new_section
 
     climate_data.close()
