@@ -3,9 +3,78 @@ from datetime import date
 import os
 import re
 
-def makeTable(file_path, url, location, country):
+
+def textDict(climate_data):
+    for row in climate_data:
+        split_row = row.split(",")
+
+        if len(split_row) < 17:
+            continue
+
+        code = split_row[1].strip()
+        if code not in code_text:
+            continue
+
+        calculations = ['count', 'count %', 'sum', 'mean', 'max', 'min']
+        if split_row[2].strip().lower() not in calculations:
+            continue
+
+        empty = True
+        for i in range(4, len(split_row)):
+            if re.search('[0-9]', split_row[i]):
+                empty = False
+                break
+        if empty:
+            continue
+
+        curr_text = code_text[code]
+        
+        i = 4
+        month_num = 1
+
+        new_section = ""
+        if curr_text == "precipitation mm":
+            new_section = "| precipitation colour = green\n"
+        if curr_text == "precipitation days":
+            new_section = "| unit precipitation days = 1.0 mm\n"
+
+        while month_num <= 13:
+            month = months[month_num]
+            data = split_row[i].strip()
+            if '.' in data:
+                data = float(data)
+                data = round(data, 1)
+            if data != '':
+                new_section += "| {} {} = {}\n".format(month, curr_text, data)
+
+            i += 1
+            month_num += 1
+
+        text_dict[code] = new_section
+
+    return text_dict
+
+
+if __name__ == '__main__':
+    file_path = input("File path: ")
+    url = input("URL: ")
+    location = input("location: ")
+    country = input("country: ")
+
     months = Categories.month
-    codeText = {'1':'precipitation mm', '2':'precipitation days', '3':'high C', '4':'low C', '5':'mean C', '8':"sun", '22': 'record high C', '23': 'record low C', '37': 'snow cm', '38': 'humidity', '39': 'dew point C'}
+    code_text = {
+        '1':'precipitation mm', 
+        '2':'precipitation days', 
+        '3':'high C', 
+        '4':'low C', 
+        '5':'mean C', 
+        '8':"sun", 
+        '22': 'record high C', 
+        '23': 'record low C', 
+        '37': 'snow cm', 
+        '38': 'humidity', 
+        '39': 'dew point C'
+    }
     code_order = ['22', '3', '5', '4', '23', '1', '37', '2', '38', '39', '8']
     text_dict = {}
 
@@ -18,53 +87,7 @@ def makeTable(file_path, url, location, country):
     climate_data = open(file_path, newline='')
     climate_data.readline()
 
-    for row in climate_data:
-        split_row = row.split(",")
-
-        if len(split_row) >= 17:
-            code = split_row[1].strip()
-            calculations = ['count', 'count %', 'sum', 'mean', 'max', 'min']
-
-            is_calculation = False
-            for calculation in calculations:
-                if calculation == split_row[2].strip().lower():
-                    is_calculation = True
-
-            empty = True
-            for i in range(4, len(split_row)):
-                if re.search('[0-9]', split_row[i]):
-                    empty = False
-
-            if code in codeText and is_calculation and not empty:
-                curr_text = codeText[code]
-                
-                i = 4
-                month_num = 1
-
-                new_section = ""
-                if curr_text == "precipitation mm":
-                    new_section = " | precipitation colour = green\n"
-                if curr_text == "precipitation days":
-                    new_section = " | unit precipitation days = 1.0 mm\n"
-
-                while month_num <= 12:
-                    month = months[month_num]
-                    data = split_row[i].strip()
-                    if '.' in data:
-                        data = float(data)
-                        data = round(data, 1)
-                    if data != '':
-                        new_line = " | {} {} = {}\n".format(month, curr_text, data)
-                        new_section += new_line
-                    i += 1
-                    month_num += 1
-
-                data = split_row[i].strip()
-                if '.' in data:
-                    data = float(data)
-                    data = round(data, 1)
-                new_section += " | year {} = {}\n".format(curr_text, data)
-                text_dict[code] = new_section
+    text_dict = textDict(climate_data)
 
     climate_data.close()
 
@@ -86,11 +109,3 @@ def makeTable(file_path, url, location, country):
     
     with open(path, "w") as weatherBoxes:
         print(weather_box, file=weatherBoxes)
-
-
-if __name__ == '__main__':
-    filePath = input("File path: ")
-    url = input("URL: ")
-    location = input("location: ")
-    country = input("country: ")
-    makeTable(filePath, url, location, country)
